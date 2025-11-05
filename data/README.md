@@ -79,12 +79,90 @@ X_train, X_test, y_train, y_test = load_plm_embeddings('esm2-650M')
 # Available models: 'esm2-650M', 'esm2-3B', 'ginkgo-AA0-650M'
 ```
 
+## Cross-Dataset Files
+
+### Xue et al. (2021)
+
+**Source**: Xue, S., et al. (2021). "Improvement of the secretion of multiple heterologous proteins in Saccharomyces cerevisiae by modulation of the α-factor prepro signal sequence." *Biotechnology Letters*, 43, 1471-1483.
+
+**File**: `xue_esm_embeddings.parquet`
+
+**Description**: 322 signal peptide variants tested in *S. cerevisiae* (yeast) for heterologous protein secretion.
+
+**Columns**:
+- `sequence`: Signal peptide amino acid sequence
+- `embedding`: ESM-2 650M embeddings (1280-dim)
+- `WA`: Protein titer (U/L), range 0-10,437 U/L
+
+**Available Embeddings**: ESM-2 650M only
+**Missing**: ESM-2 3B, Ginkgo AA0
+
+---
+
+### Zhang et al. (2022)
+
+**Source**: Zhang, B., et al. (2022). "Combining promoter and signal peptide engineering for high-level protein secretion in Saccharomyces cerevisiae." *ACS Synthetic Biology*, 11(5), 1989-1999.
+
+**Files**:
+- `zhang_p43_esm_embeddings.parquet` - P43 promoter condition
+- `zhang_pglvm_esm_embeddings.parquet` - pGLVM promoter condition
+
+**Description**: 114 signal peptides tested with two different promoters in yeast. Same signal peptides, different promoter contexts.
+
+**Columns**:
+- `sequence`: Signal peptide amino acid sequence
+- `embedding`: ESM-2 650M embeddings (1280-dim)
+- `WA`: Protein titer (U/L) for the specific promoter, range 0-327 U/L
+
+**Available Embeddings**: ESM-2 650M only
+**Missing**: ESM-2 3B, Ginkgo AA0
+
+---
+
+### Wu et al. (2020)
+
+**Source**: Wu, M., et al. (2020). "Signal peptide library design for enhanced protein secretion in Pichia pastoris." *Microbial Cell Factories*, 19(1), 1-15.
+
+**File**: `wu_esm_embeddings.parquet`
+
+**Description**: 81 signal peptides tested for binary secretion success in *P. pastoris* (yeast).
+
+**Columns**:
+- `sequence`: Signal peptide amino acid sequence
+- `embedding`: ESM-2 650M embeddings (1280-dim)
+- `WA`: Binary label (0 = no secretion, 1 = successful secretion)
+
+**Available Embeddings**: ESM-2 650M only
+**Missing**: ESM-2 3B, Ginkgo AA0
+
+**Note**: This is a classification task, unlike the regression tasks in other datasets.
+
+---
+
+## Known Limitations
+
+1. **Cross-dataset embeddings incomplete**: Wu, Xue, and Zhang datasets only have ESM-2 650M embeddings. ESM-2 3B and Ginkgo AA0 embeddings would need to be generated for complete model comparison across datasets.
+
+2. **Scale mismatch**: Different datasets measure efficiency on different scales (WA 1-10 for Grasso, protein titers in U/L for Xue/Zhang, binary for Wu). Use rank-based metrics (Spearman correlation) for cross-dataset evaluation.
+
+3. **Organism differences**: Grasso uses bacteria (*B. subtilis*), while cross-datasets use yeast (*S. cerevisiae*, *P. pastoris*). Cross-species transfer is expected to be imperfect.
+
+4. **Bin count data**: The Grasso dataset includes 10 columns with bin probability distributions (`Perc_unambiguousReads_BIN01_bin` through `BIN10_bin`) in the xlsx file. These are not included in the parquet files to keep sizes manageable but could be added if needed for model training.
+
+---
+
 ## References
 
 1. Grasso, S., et al. (2023). "Signal Peptide Efficiency: From High-Throughput Data to Prediction and Explanation." *ACS Synthetic Biology*. DOI: 10.1021/acssynbio.2c00328
 
-2. Lin, Z., et al. (2022). "Language models of protein sequences at the scale of evolution enable accurate structure prediction." *bioRxiv*. (ESM-2 paper)
+2. Xue, S., et al. (2021). "Improvement of the secretion of multiple heterologous proteins in Saccharomyces cerevisiae by modulation of the α-factor prepro signal sequence." *Biotechnology Letters*, 43, 1471-1483.
+
+3. Zhang, B., et al. (2022). "Combining promoter and signal peptide engineering for high-level protein secretion in Saccharomyces cerevisiae." *ACS Synthetic Biology*, 11(5), 1989-1999.
+
+4. Wu, M., et al. (2020). "Signal peptide library design for enhanced protein secretion in Pichia pastoris." *Microbial Cell Factories*, 19(1), 1-15.
+
+5. Lin, Z., et al. (2022). "Language models of protein sequences at the scale of evolution enable accurate structure prediction." *bioRxiv*. (ESM-2 paper)
 
 ## License
 
-The original dataset is from Grasso et al. (2023) and is reproduced here for research purposes. Please cite the original paper if you use this data.
+The datasets are from published research and reproduced here for research purposes. Please cite the original papers if you use this data.
