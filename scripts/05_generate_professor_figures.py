@@ -144,7 +144,7 @@ def figure1_bimodal_experimental_data():
     plt.tight_layout()
 
     # Save
-    output_path = Path('figures/prof_fig1_bimodal_distribution.png')
+    output_path = Path('figures/fig1_bimodal_distribution.png')
     plt.savefig(output_path, dpi=300, bbox_inches='tight')
     print(f"\n✓ Saved: {output_path}")
     plt.close()
@@ -222,7 +222,7 @@ def figure2_model_comparison():
     plt.tight_layout()
 
     # Save
-    output_path = Path('figures/prof_fig2_model_comparison.png')
+    output_path = Path('figures/fig2_model_comparison.png')
     plt.savefig(output_path, dpi=300, bbox_inches='tight')
     print(f"\n✓ Saved: {output_path}")
     plt.close()
@@ -275,7 +275,7 @@ def figure3_dropout_sweep():
     plt.tight_layout()
 
     # Save
-    output_path = Path('figures/prof_fig3_dropout_sweep.png')
+    output_path = Path('figures/fig3_dropout_sweep.png')
     plt.savefig(output_path, dpi=300, bbox_inches='tight')
     print(f"\n✓ Saved: {output_path}")
     plt.close()
@@ -303,7 +303,7 @@ def main():
         print(f"  2. Model comparison: RF vs NN across 3 embeddings")
         print(f"  3. Dropout sweep: Optimal dropout = 0.3-0.5")
 
-    print(f"\nFigures saved to: figures/prof_fig*.png")
+    print(f"\nFigures saved to: figures/fig*.png")
 
 
 if __name__ == '__main__':
